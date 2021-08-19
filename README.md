@@ -40,7 +40,7 @@ To make things easier we have committed a constant file in third task folder wit
 ## Submitting the solution
 
 - Copy this repository to a repository on your name and add the solution there. It should be clear how to build and run the project locally. **Please don't FORK this repo**
-- Fill this form with your repo link [submit form](https://forms.gle/fvnX1fb5kFDVYQae8)
+- Send your repo link to **a.alaa@fatura-egypt.com**
 ## Bonus (don't need to be in the below specific order)
 
 - A nice splash screen
