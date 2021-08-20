@@ -1,6 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:hackathon_fatura/Providers/first_task.dart';
+import 'package:provider/provider.dart';
 
 /*
  First Task : app consists of FAB and container
@@ -10,23 +10,8 @@ import 'package:flutter/material.dart';
  you need to optimize build function as
  when i pressed on Button don't rebuild Background widget
  */
-class FirstTaskScreen extends StatefulWidget {
-  @override
-  _FirstTaskScreenState createState() => _FirstTaskScreenState();
-}
-
-class BackgroundWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    print("Building BackgroundWidget");
-
-    return Container(color: Colors.amber);
-  }
-}
-
-class _FirstTaskScreenState extends State<FirstTaskScreen> {
-  Color _randomColor = Colors.black;
-  final _random = Random();
+class FirstTaskScreen extends StatelessWidget {
+  static const String routeName = '/FirstTaskScreen';
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +22,8 @@ class _FirstTaskScreenState extends State<FirstTaskScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          setState(() {
-            _randomColor =
-                Colors.primaries[_random.nextInt(Colors.primaries.length)];
-          });
+          Provider.of<ChangeColorControllerFirstTask>(context, listen: false)
+              .changeColor();
         },
         child: Icon(Icons.colorize),
       ),
@@ -48,14 +31,25 @@ class _FirstTaskScreenState extends State<FirstTaskScreen> {
         children: [
           Positioned.fill(child: BackgroundWidget()),
           Center(
-            child: Container(
-              width: 100,
-              height: 100,
-              color: _randomColor,
+            child: Consumer<ChangeColorControllerFirstTask>(
+              builder: (_, colorController, ch) => Container(
+                width: 100,
+                height: 100,
+                color: colorController.randomColorGetter,
+              ),
             ),
           )
         ],
       ),
     );
+  }
+}
+
+class BackgroundWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    print("Building BackgroundWidget");
+
+    return Container(color: Colors.amber);
   }
 }

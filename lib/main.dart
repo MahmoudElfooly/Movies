@@ -1,61 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:hackathon_fatura/task.dart';
-import 'package:hackathon_fatura/tasks/first_task/first_task_screen.dart';
-import 'package:hackathon_fatura/tasks/second_task/second_task_screen.dart';
-import 'package:hackathon_fatura/tasks/third_task/third_task_screen.dart';
+import 'package:hackathon_fatura/Providers/PopularMovie.dart';
+import 'package:hackathon_fatura/Providers/favouriteMovie.dart';
+import 'package:hackathon_fatura/Providers/first_task.dart';
+import 'package:hackathon_fatura/Providers/recentMovie.dart';
+import 'package:hackathon_fatura/Providers/secondeTask.dart';
 
-void main() {
+import 'package:provider/provider.dart';
+
+import 'Screens/home.dart';
+import 'Screens/tasks/first_task/first_task_screen.dart';
+import 'Screens/tasks/second_task/second_task_screen.dart';
+import 'Screens/tasks/third_task/third_task_screen.dart';
+
+void main() async {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Fatura Hackathon',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  final tasks = [
-    Task(
-        name: "First task",
-        description: "Optimize build method",
-        screen: FirstTaskScreen()),
-    Task(
-      name: "Second task",
-      description: "Optimize build method",
-      screen: SecondTaskScreen(),
-    ),
-    Task(
-        name: "Third task",
-        description: "Make movieApp",
-        screen: ThirdTaskScreen())
-  ];
-
-  MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Fatura Hackathon"),
-      ),
-      body: ListView.builder(
-        itemBuilder: (_, index) => ListTile(
-          title: Text(tasks[index].name),
-          subtitle: Text(tasks[index].description),
-          onTap: () {
-            Navigator.of(context).push(tasks[index].screen);
-          },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ChangeColorControllerFirstTask(),
         ),
-        itemCount: tasks.length,
+        ChangeNotifierProvider(
+          create: (_) => ChangeColorControllerSeconedTask(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => PopularMovie(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => RecentMovie(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => FavouriteMovie(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Fatura Hackathon',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        debugShowCheckedModeBanner: false,
+        home: MyHomePage(),
+        routes: {
+          ThirdTaskScreen.routeName: (ctx) => ThirdTaskScreen(),
+          FirstTaskScreen.routeName: (ctx) => FirstTaskScreen(),
+          SecondTaskScreen.routeName: (ctx) => SecondTaskScreen(),
+        },
       ),
     );
   }
